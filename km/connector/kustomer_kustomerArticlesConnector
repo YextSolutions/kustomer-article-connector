@@ -1,0 +1,188 @@
+{
+  "$id": "kustomer_kustomerArticlesConnector",
+  "$schema": "https://schema.yext.com/config/km/connector/v3",
+  "displayName": "Kustomer Articles Connector",
+  "entityType": "helpArticle",
+  "source": {
+    "sourceConfig": {
+      "apiPullConfig": {
+        "requestType": "GET",
+        "url": "https://api.kustomerapp.com/v1/kb/articles",
+        "authentication": {
+          "apiKey": {
+            "key": "Authorization",
+            "value": "Bearer ${{apiKey}}",
+            "setAsHeader": true
+          }
+        },
+        "paginationControl": {
+          "cursorPagination": {
+            "cursor": "links.next",
+            "cursorType": "RELATIVE_URL",
+            "detectCursorInHeader": false
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "queryParams": {},
+        "dataFormat": "JSON"
+      }
+    },
+    "baseSelector": {
+      "type": "JSON",
+      "header": "Entity Container",
+      "path": "data"
+    },
+    "selectors": [
+      {
+        "type": "JSON",
+        "header": "Entity ID",
+        "path": "id"
+      },
+      {
+        "type": "JSON",
+        "header": "Name",
+        "path": "attributes.title"
+      },
+      {
+        "type": "JSON",
+        "header": "Scope",
+        "path": "attributes.scope"
+      },
+      {
+        "type": "JSON",
+        "header": "Status",
+        "path": "attributes.status"
+      },
+      {
+        "type": "JSON",
+        "header": "Body",
+        "path": "attributes.metaDescription"
+      },
+      {
+        "type": "JSON",
+        "header": "Keywords",
+        "path": "attributes.metaKeywords"
+      },
+      {
+        "type": "JSON",
+        "header": "Source",
+        "path": "attributes.source"
+      },
+      {
+        "type": "JSON",
+        "header": "Hash",
+        "path": "attributes.hash"
+      },
+      {
+        "type": "JSON",
+        "header": "Created At",
+        "path": "attributes.createdAt"
+      },
+      {
+        "type": "JSON",
+        "header": "Updated At",
+        "path": "attributes.updatedAt"
+      }
+    ]
+  },
+  "transforms": [
+    {
+      "mergeColumns": {
+        "inputHeaders": [
+          "Source",
+          "Hash"
+        ],
+        "newColumnHeader": "Landing Page URL",
+        "delimiter": "/"
+      }
+    },
+    {
+      "function": {
+        "inputHeaders": {
+          "headers": [
+            "Landing Page URL"
+          ]
+        },
+        "plugin": "kustomerArticles",
+        "function": "createKustomerUrl"
+      }
+    },
+    {
+      "extractText": {
+        "inputHeader": "Created At",
+        "newColumnHeader": "Created Date - Formatted",
+        "extractOperation": "ALL_TEXT_BEFORE",
+        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+        "valueToFind": {
+          "plainText": {
+            "value": "T",
+            "ignoreCase": false
+          }
+        }
+      }
+    },
+    {
+      "extractText": {
+        "inputHeader": "Updated At",
+        "newColumnHeader": "Updated Date - Formatted",
+        "extractOperation": "ALL_TEXT_BEFORE",
+        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+        "valueToFind": {
+          "plainText": {
+            "value": "T",
+            "ignoreCase": false
+          }
+        }
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "field": "landingPageUrl",
+      "header": "Landing Page URL",
+      "subfieldPath": []
+    },
+    {
+      "field": "keywords",
+      "header": "Keywords",
+      "subfieldPath": []
+    },
+    {
+      "field": "kustomer_scope",
+      "header": "Scope",
+      "subfieldPath": []
+    },
+    {
+      "field": "kustomer_status",
+      "header": "Status",
+      "subfieldPath": []
+    },
+    {
+      "field": "entityId",
+      "header": "Entity ID",
+      "subfieldPath": []
+    },
+    {
+      "field": "body",
+      "header": "Body",
+      "subfieldPath": []
+    },
+    {
+      "field": "name",
+      "header": "Name",
+      "subfieldPath": []
+    },
+    {
+      "field": "externalArticlePostDate",
+      "header": "Created Date - Formatted",
+      "subfieldPath": []
+    },
+    {
+      "field": "externalArticleUpdateDate",
+      "header": "Updated Date - Formatted",
+      "subfieldPath": []
+    }
+  ]
+}
