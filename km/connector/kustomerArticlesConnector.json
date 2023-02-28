@@ -106,7 +106,7 @@
           ]
         },
         "plugin": "kustomerArticles",
-        "function": "createKustomerUrl"
+        "function": "createArticleUrl"
       }
     },
     {
