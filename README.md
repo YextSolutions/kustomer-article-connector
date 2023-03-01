@@ -7,7 +7,7 @@ Pull your knowledge base articles from Kustomer into Yext with the Kustomer Arti
 To use this template, you'll need the following before install:
 
 - Kustomer Knowledge Base Domain
-- Kustomer API Key
+- Kustomer API Key set to the **org.admin.kb** role
 
 # Installation Instructions
 If you are an existing Yext customer, you can install the Kustomer Article Connector here <https://www.yext.com/s/me/apps/1002790>
