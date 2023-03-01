@@ -1,7 +1,7 @@
 # kustomer-article-connector
 
 # Product Description
-Pull your knowlegde base articles from Kustomer into Yext with the Kustomer Article Connector! You can use these articles to populate your support, workplace, or developer Answers experiences, in addition to other Yext products.
+Pull your knowledge base articles from Kustomer into Yext with the Kustomer Article Connector! You can use these articles to populate your support, workplace, or developer Answers experiences, in addition to other Yext products.
 
 # Requirements
 To use this template, you'll need the following before install:
