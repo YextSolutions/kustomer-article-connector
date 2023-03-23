@@ -5,34 +5,13 @@
   "entityType": "helpArticle",
   "source": {
     "sourceConfig": {
-      "apiPullConfig": {
-        "requestType": "GET",
-        "url": "https://api.kustomerapp.com/v1/kb/articles",
-        "authentication": {
-          "apiKey": {
-            "key": "Authorization",
-            "value": "Bearer ${{apiKey}}",
-            "setAsHeader": true
+      "nativeSourceConfig": {
+        "source": "kustomer",
+        "operation": "fetchArticles",
+        "inputs": {
+          "bearerToken": "${{apiKey}}"
           }
-        },
-        "paginationControl": {
-          "cursorPagination": {
-            "cursor": "links.next",
-            "cursorType": "RELATIVE_URL",
-            "detectCursorInHeader": false
-          }
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "queryParams": {},
-        "dataFormat": "JSON"
-      }
-    },
-    "baseSelector": {
-      "type": "JSON",
-      "header": "Entity Container",
-      "path": "data"
+        }
     },
     "selectors": [
       {
