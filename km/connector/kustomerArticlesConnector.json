@@ -9,7 +9,7 @@
         "source": "kustomer",
         "operation": "fetchArticles",
         "inputs": {
-          "bearerToken": "${{apiKey}}"
+          "apiKey": "${{apiKey}}"
           }
         }
     },
