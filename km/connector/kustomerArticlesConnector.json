@@ -1,176 +1,186 @@
 {
-  "$id": "kustomer_kustomerArticlesConnector",
-  "$schema": "https://schema.yext.com/config/km/connector/v3",
-  "displayName": "Kustomer Articles Connector",
-  "entityType": "helpArticle",
-  "source": {
-    "sourceConfig": {
-      "nativeSourceConfig": {
-        "source": "kustomer",
-        "operation": "fetchArticles",
-        "inputs": {
-          "apiKey": "${{apiKey}}"
-          }
-        }
-    },
-    "selectors": [
-      {
-        "type": "JSON",
-        "header": "Entity ID",
-        "path": "id"
-      },
-      {
-        "type": "JSON",
-        "header": "Name",
-        "path": "attributes.title"
-      },
-      {
-        "type": "JSON",
-        "header": "Scope",
-        "path": "attributes.scope"
-      },
-      {
-        "type": "JSON",
-        "header": "Status",
-        "path": "attributes.status"
-      },
-      {
-        "type": "JSON",
-        "header": "Body",
-        "path": "attributes.metaDescription"
-      },
-      {
-        "type": "JSON",
-        "header": "Keywords",
-        "path": "attributes.metaKeywords"
-      },
-      {
-        "type": "JSON",
-        "header": "Source",
-        "path": "attributes.source"
-      },
-      {
-        "type": "JSON",
-        "header": "Hash",
-        "path": "attributes.hash"
-      },
-      {
-        "type": "JSON",
-        "header": "Created At",
-        "path": "attributes.createdAt"
-      },
-      {
-        "type": "JSON",
-        "header": "Updated At",
-        "path": "attributes.updatedAt"
-      }
-    ]
-  },
-  "transforms": [
-    {
-      "mergeColumns": {
-        "inputHeaders": [
-          "Source",
-          "Hash"
-        ],
-        "newColumnHeader": "Landing Page URL",
-        "delimiter": "/"
-      }
-    },
-    {
-      "function": {
-        "inputHeaders": {
-          "headers": [
-            "Landing Page URL"
-          ]
+    "$id": "kustomer_kustomerArticlesConnector",
+    "$schema": "https://schema.yext.com/config/km/connector/v4",
+    "displayName": "Kustomer Articles Connector",
+    "entityTypes": [
+        "helpArticle"
+    ],
+    "source": {
+        "sourceConfig": {
+            "nativeSourceConfig": {
+                "source": "kustomer",
+                "operation": "fetchArticles",
+                "inputs": {
+                    "apiKey": "${{apiKey}}"
+                }
+            }
         },
-        "plugin": "kustomerArticles",
-        "function": "createArticleUrl"
-      }
+        "selectors": [
+            {
+                "type": "JSON",
+                "header": "Entity ID",
+                "path": "id"
+            },
+            {
+                "type": "JSON",
+                "header": "Name",
+                "path": "attributes.title"
+            },
+            {
+                "type": "JSON",
+                "header": "Scope",
+                "path": "attributes.scope"
+            },
+            {
+                "type": "JSON",
+                "header": "Status",
+                "path": "attributes.status"
+            },
+            {
+                "type": "JSON",
+                "header": "Body",
+                "path": "attributes.metaDescription"
+            },
+            {
+                "type": "JSON",
+                "header": "Keywords",
+                "path": "attributes.metaKeywords"
+            },
+            {
+                "type": "JSON",
+                "header": "Source",
+                "path": "attributes.source"
+            },
+            {
+                "type": "JSON",
+                "header": "Hash",
+                "path": "attributes.hash"
+            },
+            {
+                "type": "JSON",
+                "header": "Created At",
+                "path": "attributes.createdAt"
+            },
+            {
+                "type": "JSON",
+                "header": "Updated At",
+                "path": "attributes.updatedAt"
+            }
+        ]
     },
-    {
-      "extractText": {
-        "inputHeader": "Created At",
-        "newColumnHeader": "Created Date - Formatted",
-        "extractOperation": "ALL_TEXT_BEFORE",
-        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
-        "valueToFind": {
-          "plainText": {
-            "value": "T",
-            "ignoreCase": false
-          }
+    "transforms": [
+        {
+            "mergeColumns": {
+                "inputHeaders": [
+                    "Source",
+                    "Hash"
+                ],
+                "newColumnHeader": "Landing Page URL",
+                "delimiter": "/"
+            }
+        },
+        {
+            "function": {
+                "inputHeaders": {
+                    "headers": [
+                        "Landing Page URL"
+                    ]
+                },
+                "plugin": "kustomerArticles",
+                "function": "createArticleUrl"
+            }
+        },
+        {
+            "extractText": {
+                "inputHeader": "Created At",
+                "newColumnHeader": "Created Date - Formatted",
+                "extractOperation": "ALL_TEXT_BEFORE",
+                "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+                "valueToFind": {
+                    "plainText": {
+                        "value": "T",
+                        "ignoreCase": false
+                    }
+                }
+            }
+        },
+        {
+            "extractText": {
+                "inputHeader": "Updated At",
+                "newColumnHeader": "Updated Date - Formatted",
+                "extractOperation": "ALL_TEXT_BEFORE",
+                "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
+                "valueToFind": {
+                    "plainText": {
+                        "value": "T",
+                        "ignoreCase": false
+                    }
+                }
+            }
         }
-      }
-    },
-    {
-      "extractText": {
-        "inputHeader": "Updated At",
-        "newColumnHeader": "Updated Date - Formatted",
-        "extractOperation": "ALL_TEXT_BEFORE",
-        "extractFrom": "FIRST_INSTANCE_MATCHING_TEXT",
-        "valueToFind": {
-          "plainText": {
-            "value": "T",
-            "ignoreCase": false
-          }
+    ],
+    "mappings": [
+        {
+            "field": "landingPageUrl",
+            "header": "Landing Page URL",
+            "subfieldPath": []
+        },
+        {
+            "field": "keywords",
+            "header": "Keywords",
+            "subfieldPath": []
+        },
+        {
+            "field": "kustomer_scope",
+            "header": "Scope",
+            "subfieldPath": []
+        },
+        {
+            "field": "kustomer_status",
+            "header": "Status",
+            "subfieldPath": []
+        },
+        {
+            "field": "entityId",
+            "header": "Entity ID",
+            "subfieldPath": []
+        },
+        {
+            "field": "bodyV2",
+            "header": "Body",
+            "subfieldPath": [
+                {
+                    "name": "markdown"
+                }
+            ]
+        },
+        {
+            "field": "name",
+            "header": "Name",
+            "subfieldPath": []
+        },
+        {
+            "field": "externalArticlePostDate",
+            "header": "Created Date - Formatted",
+            "subfieldPath": []
+        },
+        {
+            "field": "externalArticleUpdateDate",
+            "header": "Updated Date - Formatted",
+            "subfieldPath": []
         }
-      }
+    ],
+    "scheduleConfig": {
+        "customSchedule": {
+            "timeZone": "America/New_York",
+            "startDate": "2023-02-27",
+            "startTime": "00:00",
+            "frequencyType": "DAILY"
+        },
+        "runMode": "COMPREHENSIVE"
+    },
+    "comprehensiveModeConfig": {
+        "comprehensiveSet": "ENTITIES_CREATED_BY_THIS_CONNECTOR",
+        "actionOnMissingEntities": "DELETE"
     }
-  ],
-  "mappings": [
-    {
-      "field": "landingPageUrl",
-      "header": "Landing Page URL",
-      "subfieldPath": []
-    },
-    {
-      "field": "keywords",
-      "header": "Keywords",
-      "subfieldPath": []
-    },
-    {
-      "field": "kustomer_scope",
-      "header": "Scope",
-      "subfieldPath": []
-    },
-    {
-      "field": "kustomer_status",
-      "header": "Status",
-      "subfieldPath": []
-    },
-    {
-      "field": "entityId",
-      "header": "Entity ID",
-      "subfieldPath": []
-    },
-    {
-      "field": "body",
-      "header": "Body",
-      "subfieldPath": []
-    },
-    {
-      "field": "name",
-      "header": "Name",
-      "subfieldPath": []
-    },
-    {
-      "field": "externalArticlePostDate",
-      "header": "Created Date - Formatted",
-      "subfieldPath": []
-    },
-    {
-      "field": "externalArticleUpdateDate",
-      "header": "Updated Date - Formatted",
-      "subfieldPath": []
-    }
-  ],
-  "scheduleConfig": {
-    "customSchedule": {
-      "timeZone": "America/New_York",
-      "startDate": "2023-02-27",
-      "startTime": "00:00",
-      "frequencyType": "DAILY"
-    },
-    "runMode": "COMPREHENSIVE"
-  }
 }
